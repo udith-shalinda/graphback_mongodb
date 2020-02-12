@@ -11,14 +11,7 @@ import { loadResolversFiles, loadSchemaFiles } from '@graphql-toolkit/file-loadi
 import knex from 'knex'
 const mongoose = require('mongoose');
 
-const conn = mongoose.connect("mongodb+srv://max:ODjmkgYPiqNhMgTk@testone-e21ea.mongodb.net/graphql_practice" ,{useNewUrlParser:true})
-.then(()=>{
-    console.log("Database connected successfully");
-    // app.listen(5000);
-})
-.catch(()=>{
-    console.log("Connection failed");
-});
+
 
 async function start() {
   const app = express();
@@ -39,14 +32,21 @@ async function start() {
   //   connection: generateConfig.db.dbConfig,
   // })
 
-  
+  mongoose.connect("mongodb+srv://max:ODjmkgYPiqNhMgTk@testone-e21ea.mongodb.net/graphql_practice" ,{useNewUrlParser:true})
+  .then(()=>{
+      console.log("Database connected successfully");
+      // app.listen(5000);
+  })
+  .catch(()=>{
+      console.log("Connection failed");
+  });
 
   const pubSub = new PubSub();
 
   const apolloServer = new ApolloServer({
     typeDefs: loadSchemaFiles(join(__dirname, '/schema/')) as any,
     resolvers: loadResolversFiles(join(__dirname, '/resolvers/')) as any,
-    context: createKnexRuntimeContext(conn as any, pubSub),
+    // context: createKnexRuntimeContext(null as any, pubSub),
     playground: true,
   })
 
