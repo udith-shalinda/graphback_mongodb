@@ -1,6 +1,6 @@
-import { validateRuntimeContext } from "@graphback/runtime";
+// import { validateRuntimeContext } from "@graphback/runtime";
 import { Resolvers } from "../../generated-types"
-import { NoteModel } from '../../mongo_model/NoteModel';
+import { NoteModel } from './../../mongo_model/NoteModel';
 const Note = require("./../../mongo_model/Note")
 
 export default {
@@ -24,16 +24,17 @@ export default {
       // validateRuntimeContext(context)
       console.log("reached")
       //mapping is not needed
-      return Note.find().then((result:NoteModel[])=>{
-        return result.map((note:NoteModel)=>{
-          return {
-            ...note,
-            id:note.id,
-            title:note.title,
-            description:note.description
-          }
-        })
-      });
+      // return Note.find().then((result:NoteModel[])=>{
+      //   return result.map((note:NoteModel)=>{
+      //     return {
+      //       ...note,
+      //       id:note.id,
+      //       title:note.title,
+      //       description:note.description
+      //     }
+      //   })
+      // });
+      return context.crudService.findAll(Note);
     }
   },
 
@@ -44,7 +45,12 @@ export default {
         title:args.input.title,
         description:args.input.description,
     })
-    return note.save();
+    // return note.save();
+    return context.crudService.create("model",note);
+    // return context.crudService.create("note", args.input, {
+    //   publishEvent: false
+    // }, context);
+
     },
     updateNote: (_, args, context) => {
       // validateRuntimeContext(context)

@@ -1,5 +1,6 @@
 import { validateRuntimeContext } from "@graphback/runtime";
 import { Resolvers } from "../../generated-types"
+const mongoose = require('mongoose');
 const Comment = require('./../../mongo_model/Comment')
 
 export default {
@@ -7,6 +8,7 @@ export default {
     findComments: (_, args, context) => {
       // validateRuntimeContext(context)
       if(args.fields.id){
+        // const dataType:Model=mongoose.Model()
         return Comment.find({_id:args.fields.id});
       }
       return Comment.find(args.fields);

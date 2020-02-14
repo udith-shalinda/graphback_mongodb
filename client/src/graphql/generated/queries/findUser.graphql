@@ -1,0 +1,5 @@
+query findUsers($id: ID!, $email: String!, $name: String!) {
+    findUsers(fields: {id: $id, email: $email, name: $name}) {
+      ...UserFields
+    }
+  }

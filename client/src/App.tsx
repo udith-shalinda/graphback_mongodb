@@ -4,7 +4,7 @@ import { useCreateNoteMutation, useFindAllNotesQuery } from './generated-types';
 
 const App: React.FC = () => {
   const allNotes = useFindAllNotesQuery();
-  allNotes.startPolling(2000);
+  allNotes.startPolling(20000);
   const [createNote] = useCreateNoteMutation();
   const [newNoteTitle, setNewNoteTitle] = useState();
   const [newNoteDescription, setNewNoteDescription] = useState();

@@ -6,10 +6,11 @@ import { ApolloServer, PubSub } from "apollo-server-express"
 import { loadConfig } from 'graphql-config';
 import { join } from 'path';
 
-import { createKnexRuntimeContext } from '@graphback/runtime'
+import { createKnexRuntimeContext } from './mongo_model/src/createKnexRuntimeContext'
 import { loadResolversFiles, loadSchemaFiles } from '@graphql-toolkit/file-loading';
 import knex from 'knex'
 const mongoose = require('mongoose');
+const Note = require("./mongo_model/Note")
 
 
 
@@ -27,10 +28,10 @@ async function start() {
   const generateConfig = await config!.getDefault().extension('generate');
 
   // connect to db
-  // const db = knex({
-  //   client: generateConfig.db.database,
-  //   connection: generateConfig.db.dbConfig,
-  // })
+  const db = knex({
+    client: generateConfig.db.database,
+    connection: generateConfig.db.dbConfig,
+  })
 
   mongoose.connect("mongodb+srv://max:ODjmkgYPiqNhMgTk@testone-e21ea.mongodb.net/graphql_practice" ,{useNewUrlParser:true})
   .then(()=>{
@@ -46,7 +47,7 @@ async function start() {
   const apolloServer = new ApolloServer({
     typeDefs: loadSchemaFiles(join(__dirname, '/schema/')) as any,
     resolvers: loadResolversFiles(join(__dirname, '/resolvers/')) as any,
-    // context: createKnexRuntimeContext(null as any, pubSub),
+    context: createKnexRuntimeContext(pubSub),
     playground: true,
   })
 
