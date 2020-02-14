@@ -8,8 +8,6 @@ import { defaultLogger, GraphbackMessageLogger } from '../utils/Logger';
 import { upperCaseFirstChar } from '../utils/upperCaseFirstChar';
 import { GraphbackCRUDService } from "./GraphbackCRUDService";
 import { subscriptionTopicMapping } from './subscriptionTopicMapping';
-import {KnexDBDataProvider} from './../data/KnexDBDataProvider';
-
 
 //changed
 
@@ -20,10 +18,10 @@ import {KnexDBDataProvider} from './../data/KnexDBDataProvider';
  * - Logging: using logging abstraction
  */
 // tslint:disable-next-line: no-any
-export class CRUDService<T = any> implements GraphbackCRUDService<T, GraphbackRuntimeContext | any>  {
+export class MongoCRUDService<T = any> implements GraphbackCRUDService<T, GraphbackRuntimeContext | any>  {
     private db: GraphbackDataProvider;
     private logger: GraphbackMessageLogger;
-    // private pubSub: PubSubEngine;
+    // private pubSsub: PubSubEngine;
 
     constructor(db: GraphbackDataProvider, pubSub?: PubSubEngine,
         logger?: GraphbackMessageLogger) {
@@ -34,8 +32,7 @@ export class CRUDService<T = any> implements GraphbackCRUDService<T, GraphbackRu
 
     public async create(name: string, data: any, options?: GraphbackRuntimeOptions, context?: GraphbackRuntimeContext): Promise<T> {
         this.logger.log(`Creating object name`)
-        const result = await this.db.create(name, data, context); //error is here;
-        this.logger.log("result");
+        const result = await this.db.create(name, data, context);
         return result;
     }
     public async update(name: string, id: string, data: T, options?: GraphbackRuntimeOptions, context?: GraphbackRuntimeContext): Promise<T> {

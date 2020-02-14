@@ -6,7 +6,7 @@ import { ApolloServer, PubSub } from "apollo-server-express"
 import { loadConfig } from 'graphql-config';
 import { join } from 'path';
 
-import { createKnexRuntimeContext } from './mongo_model/src/createKnexRuntimeContext'
+import { createMongoDbRuntimeContext } from './mongo_model/src/createMongoDbRuntimeContext'
 import { loadResolversFiles, loadSchemaFiles } from '@graphql-toolkit/file-loading';
 import knex from 'knex'
 const mongoose = require('mongoose');
@@ -46,7 +46,7 @@ async function start() {
   const apolloServer = new ApolloServer({
     typeDefs: loadSchemaFiles(join(__dirname, '/schema/')) as any,
     resolvers: loadResolversFiles(join(__dirname, '/resolvers/')) as any,
-    context: createKnexRuntimeContext(pubSub),
+    context: createMongoDbRuntimeContext(pubSub),
     playground: true,
   })
 

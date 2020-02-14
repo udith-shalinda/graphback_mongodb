@@ -1,33 +1,17 @@
 import { getTableName, InputModelTypeContext } from "@graphback/core"
 import { execSync } from 'child_process';
-import * as Knex from 'knex';
 import { AdvancedFilter, GraphbackDataProvider } from './GraphbackDataProvider';
 import { NoDataError } from './NoDataError';
-import { NoteModel } from '../../NoteModel';
 
-//changed
 
-/**
- * Knex.js database data provider exposing basic CRUD operations that works with all databases that knex supports.
- * Layer is tested with following databases:
- *
- * - Sqlite
- * - MySQL (MariaDB)
- * - Postgress (by `PgKnexDBDataProvider`)
- *
- * NOTE: For Postgres use dedicated `PgKnexDBDataProvider` that implements more performant creation method.
- */
-// tslint:disable-next-line: no-any
-export class KnexDBDataProvider<Type = any, GraphbackContext = any> implements GraphbackDataProvider<Type, GraphbackContext>{
+
+export class MongoDBDataProvider<Type = any, GraphbackContext = any> implements GraphbackDataProvider<Type, GraphbackContext>{
 
   constructor() {
 
   }
 
   public async create(name: string, data: any): Promise<Type> {
-    console.log("KnexDBDataProvider called")
-    
-      console.log(data);
       const result = await data.save();
       if(result){
         return result;
@@ -44,11 +28,11 @@ export class KnexDBDataProvider<Type = any, GraphbackContext = any> implements G
   }
 
   // tslint:disable-next-line: no-reserved-keywords
-  public async delete(name: string, id: string, data?: Type): Promise<string> {
-    // const dbResult = await this.db(name).where('id', '=', id).del()
-    // if (dbResult) {
-    //   return id;
-    // }
+  public async delete(name: any, id: string, data?: Type): Promise<string> {
+    const dbResult = await name.deleteOne({_id:id});
+    if (dbResult) {
+      return id;
+    }
     throw new NoDataError(`Cannot delete name}`);
 
   }
