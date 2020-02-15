@@ -1,13 +1,13 @@
 import { PubSubEngine } from 'graphql-subscriptions';
-import * as Knex from 'knex'
-import { MongoCRUDService, PgKnexDBDataProvider } from '.';
+import { MongoCRUDService } from '.';
 import { GraphbackRuntimeContext } from './api/GraphbackRuntimeContext';
+import { MongoDBDataProvider } from './data/MongoDBDataProvider';
  
 /**
  * Create context object required for the graphback runtime layer 
  */
-export const createMongoDbRuntimeContext = (pubSub: PubSubEngine): GraphbackRuntimeContext => {
-  const crudDb = new PgKnexDBDataProvider();
+export const createMongoDbRuntimeContext = (db:any,pubSub: PubSubEngine): GraphbackRuntimeContext => {
+  const crudDb = new MongoDBDataProvider(db);
   const crudService = new MongoCRUDService(crudDb, pubSub);
 
   return {

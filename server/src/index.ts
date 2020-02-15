@@ -8,8 +8,7 @@ import { join } from 'path';
 
 import { createMongoDbRuntimeContext } from './mongo_model/src/createMongoDbRuntimeContext'
 import { loadResolversFiles, loadSchemaFiles } from '@graphql-toolkit/file-loading';
-import knex from 'knex'
-const mongoose = require('mongoose');
+const MongoClient = require('mongodb').MongoClient;
 
 
 
@@ -32,21 +31,25 @@ async function start() {
   //   connection: generateConfig.db.dbConfig,
   // })
 
-  mongoose.connect("mongodb+srv://max:ODjmkgYPiqNhMgTk@testone-e21ea.mongodb.net/graphql_practice" ,{useNewUrlParser:true})
-  .then(()=>{
-      console.log("Database connected successfully");
-      // app.listen(5000);
-  })
-  .catch(()=>{
-      console.log("Connection failed");
-  });
+  const url = "mongodb+srv://max:ODjmkgYPiqNhMgTk@testone-e21ea.mongodb.net/graphql_practice";
+  // mongoose.connect(url ,{useNewUrlParser:true})
+  // .then(()=>{
+  //     console.log("Database connected successfully");
+  //     // app.listen(5000);
+  // })
+  // .catch(()=>{
+  //     console.log("Connection failed");
+  // });
+  const client = new MongoClient(url, { useNewUrlParser: true });
+  
+
 
   const pubSub = new PubSub();
 
   const apolloServer = new ApolloServer({
     typeDefs: loadSchemaFiles(join(__dirname, '/schema/')) as any,
     resolvers: loadResolversFiles(join(__dirname, '/resolvers/')) as any,
-    context: createMongoDbRuntimeContext(pubSub),
+    context: createMongoDbRuntimeContext(client,pubSub),
     playground: true,
   })
 

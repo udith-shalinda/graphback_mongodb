@@ -9,7 +9,6 @@ import { upperCaseFirstChar } from '../utils/upperCaseFirstChar';
 import { GraphbackCRUDService } from "./GraphbackCRUDService";
 import { subscriptionTopicMapping } from './subscriptionTopicMapping';
 
-//changed
 
 /**
  * Default implementation of the CRUD service offering following capabilities:
@@ -26,7 +25,7 @@ export class MongoCRUDService<T = any> implements GraphbackCRUDService<T, Graphb
     constructor(db: GraphbackDataProvider, pubSub?: PubSubEngine,
         logger?: GraphbackMessageLogger) {
         this.db = db;
-        // this.pubSub = pubSub;
+        // pubSub = pubSub;
         this.logger = logger || defaultLogger;
     }
 

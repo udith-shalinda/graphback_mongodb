@@ -14,11 +14,11 @@ export default {
   Query: {
     findNotes: (_, args, context) => {
       validateRuntimeContext(context)
-      return context.crudService.findBy(Note, args.fields);
+      return context.crudService.findBy("note", args.fields);
     },
     findAllNotes: (_, args, context) => {
       validateRuntimeContext(context)
-      return context.crudService.findAll(Note);
+      return context.crudService.findAll("note");
     }
   },
 
@@ -30,11 +30,11 @@ export default {
         description:args.input.description,
     })
     // return note.save();
-    return context.crudService.create("model",note);
+    return context.crudService.create("note",args.input);
     },
     updateNote: (_, args, context) => {
       validateRuntimeContext(context)
-      return context.crudService.update(Note, args.id, args.input, {
+      return context.crudService.update("note", args.id, args.input, {
         publishEvent: false
       }, context);
     }

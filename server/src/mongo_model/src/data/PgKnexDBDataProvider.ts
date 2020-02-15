@@ -14,17 +14,17 @@ import { NoDataError } from './NoDataError';
  */
 // tslint:disable-next-line: no-any
 export class PgKnexDBDataProvider<Type = any, GraphbackContext = any> extends MongoDBDataProvider<Type, GraphbackContext>{
-
-    constructor() {
-        super();
-    }
+    
+    // constructor() {
+    //     // super();
+    // }
 
     // public async create(name: string,  data:any): Promise<Type> {
-        // const dbResult = await this.db(name).insert(data).returning('*');
-        // if (dbResult && dbResult[0]) {
-        //     return dbResult[0]
-        // }
-        // throw new NoDataError(`Cannot create ${name}`);
+    //     const dbResult = await this.db(name).insert(data).returning('*');
+    //     if (dbResult && dbResult[0]) {
+    //         return dbResult[0]
+    //     }
+    //     throw new NoDataError(`Cannot create ${name}`);
     // }
 }
 
