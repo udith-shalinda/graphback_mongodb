@@ -1,6 +1,5 @@
 import { validateRuntimeContext } from "@graphback/runtime";
 import { Resolvers } from "../../generated-types"
-const Note = require("./../../mongo_model/Note")
 
 
 export default {
@@ -25,11 +24,6 @@ export default {
   Mutation: {
     createNote: (_, args, context) => {
       validateRuntimeContext(context)
-      const note = new Note({
-        title:args.input.title,
-        description:args.input.description,
-    })
-    // return note.save();
     return context.crudService.create("note",args.input);
     },
     updateNote: (_, args, context) => {

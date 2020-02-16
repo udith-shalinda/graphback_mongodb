@@ -1,6 +1,5 @@
 import { AdvancedFilter, GraphbackDataProvider } from './GraphbackDataProvider';
 import { NoDataError } from './NoDataError';
-const Note = require('./../../Note');
 const {ObjectId} = require('mongodb');
 
 
@@ -22,7 +21,7 @@ export class MongoDBDataProvider<Type = any, GraphbackContext = any> implements 
           id:result.ops[0]._id
         }
       }
-      throw new NoDataError(`Cannot create name`);
+      throw new NoDataError(`Cannot create ${name}`);
   }
 
   public async update(name: any, id: string, data: Type): Promise<Type> {
@@ -35,10 +34,10 @@ export class MongoDBDataProvider<Type = any, GraphbackContext = any> implements 
           id:dbResult[0]._id
         }
       }else{
-        throw new NoDataError(`Cannot update name`);
+        throw new NoDataError(`Cannot update ${name}`);
       }
     }
-    throw new NoDataError(`Cannot update name`);
+    throw new NoDataError(`Cannot update ${name}`);
   }
 
   // tslint:disable-next-line: no-reserved-keywords
@@ -47,7 +46,7 @@ export class MongoDBDataProvider<Type = any, GraphbackContext = any> implements 
     if (dbResult) {
       return id;
     }
-    throw new NoDataError(`Cannot delete name}`);
+    throw new NoDataError(`Cannot delete ${name}`);
 
   }
 
